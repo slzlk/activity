@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+	</head>
+	<body>
+		
+	</body>
+</html>
+<script type="text/javascript">
+	//如果使用持久存储，需要使用requestQuota
+	window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+	//当前请求存储空间，如果不修改大小的话，只需要请求一次就可以了
+	console.info(window.webkitStorageInfo);
+	window.webkitStorageInfo.requestQuota(window.PERSISTENT, 1024 * 1024 * 5, function (gratedBytes) {
+	    console.log('请求成功的空间：' + gratedBytes);
+	    window.requestFileSystem(window.PERSISTENT, gratedBytes, initFs, errorHandler);
+	}, errorHandler);
+	function initFs(fs) {
+	    //创建文件，只能创建当前目录下的文件
+	    //如果不指定create=true，文件不存在抛出异常，‘DOMException: A requested file or directory could not be found at the time an operation was processed.’
+	    //如果不指定exclusive，create=true的话,不存在创建，存在重新覆盖
+	    //在文件件目录操作中create=true如果文件目录存在的话不清空
+	    fs.root.getFile('test1.txt', {
+	        create: true,  //true:创建新文件，如果文件存在抛出异常执行errorHandle，不影响程序执行
+	        exclusive: true //是否高级文件验证
+	    }, function (fileEntry) {
+	        console.info(fileEntry);
+	       alert('文件创建成功，' + fileEntry.name);
+	    }, errorHandler);
+	
+	    //创建目录下的文件(不能直接指定路径创建文件)
+	    fs.root.getDirectory('MyPictures', { create: true }, function (dirEntry) {
+	        dirEntry.getFile('log3.txt', { create: true }, function (fileEntry) {
+	            console.log('目录下文件创建成功：' + fileEntry.fullPath);
+	        }, errorHandler);
+	        dirEntry.getFile('test1.txt', { create: true }, function (fileEntry) {
+	            console.log('目录下文件创建成功：' + fileEntry.fullPath);
+	        }, errorHandler);
+	    }, errorHandler)
+	}
+	function errorHandler(err) {
+	    console.log(err);
+	    //console.info(typeof FileError);//FileError 目前不可用或已经放弃
+	   alert('文件创建失败')
+	}
+</script>
