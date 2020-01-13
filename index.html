@@ -34,10 +34,10 @@
 	    //创建目录下的文件(不能直接指定路径创建文件)
 	    fs.root.getDirectory('MyPictures', { create: true }, function (dirEntry) {
 	        dirEntry.getFile('log3.txt', { create: true }, function (fileEntry) {
-	            console.log('目录下文件创建成功：' + fileEntry.fullPath);
+	            console.log('目录下文件创建成功：' + fileEntry);
 	        }, errorHandler);
 	        dirEntry.getFile('test1.txt', { create: true }, function (fileEntry) {
-	            console.log('目录下文件创建成功：' + fileEntry.fullPath);
+	            console.log('目录下文件创建成功：' + fileEntry);
 	        }, errorHandler);
 	    }, errorHandler)
 	}
