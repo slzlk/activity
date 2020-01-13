@@ -1,28 +1,20 @@
+<!DOCTYPE html>
 <html>
-<head>
-<title>创建和删除文件夹</title>
-</head>
-<body>
-<h2>创建和删除文件夹</h2>
-<hr>
-<script language="JavaScript">
-var strFolder = "c:\\test";
-var objFSO = new ActiveXObject("Scripting.FileSystemObject");
-// 检查文件夹是否存在
-if (!objFSO.FolderExists(strFolder)){
-   // 创建文件夹
-   var strFolderName = objFSO.CreateFolder(strFolder);
-   document.write("创建文件夹: " + strFolderName + "<br>");
-}
-// 检查文件夹是否存在
-if (objFSO.FolderExists(strFolder)){
-   document.write("文件夹: " + strFolder + "存在<br>");
-   // 删除文件夹
-   objFSO.DeleteFolder(strFolder, false);
-   document.write("删除文件夹: " + strFolder + "成功<br>");
-}
-else
-   document.write("文件夹不存在<br>");
-</script>
-</body>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+	</head>
+	<body>
+	
+		<input type="button" id="export" value="导出"/>
+	</body>
 </html>
+<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="filesave.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    var content = "这是直接使用HTML5进行导出的";
+	    var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
+	    saveAs(blob, "file.txt");//saveAs(blob,filename)
+</script>
