@@ -1,29 +1,68 @@
 <!DOCTYPE html>
 <html>
+ <head>
+ <title>截屏保存</title> 
+ <meta charset="utf-8" /> 
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    div {
+        padding: 20px;
+        border: 5px solid black;
+    }
+    
+    h2 {
+        background: #efefef;
+        margin: 10px;
+    }
+    
+    .toPic {
+        display: none;
+    }
+</style>
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>html2canvas example</title>
-    <script type="text/javascript" src="js/html2canvas.js"></script>
-</head>
-<script type="text/javascript">
-function takeScreenshot() {
-  console.log('test');
-    html2canvas(document.getElementById('view'), {
-        onrendered: function(canvas) {
-            document.body.appendChild(canvas);
-        },
-      // width: 300,
-      // height: 300
-    });
-}
-</script>
-<body>
-    <div id="view" >
-		11111111
-        <input type="button" value="截图" onclick="takeScreenshot()">
-    </div>
-</body>
-
+</head> 
+ <body>
+<h2 style="padding-top: 40px;">原始HTML</h2>
+<div style="border:1px solid #eee;width: 600px;height: 400px;color: #333;font-size: 30px;margin-top: 40px;" class="test">
+    截屏内容
+</div>
+<h2 class="toCanvas"> <a href="javascript:void(0);"> 转成canvas </a></h2>
+<h2 class="toPic"><a href="javascript:void(0);"> 转成图片 </a></h2>
+<h5>
+    <label for="imgW">宽度:</label>
+    <input type="number" value="" id="imgW" placeholder="默认是原图宽度" />
+    <label for="imgH">高度:</label>
+    <input type="number" value="" id="imgH" placeholder="默认是原图高度" />
+    <label for="imgFileName">文件名:</label>
+    <input type="text" placeholder="文件名" id="imgFileName" />
+    <select id="sel">
+        <option value="png">png</option>
+        <option value="jpeg">jpeg</option>
+        <option value="bmp">bmp</option>
+    </select>
+    <button id="save">保存</button>
+</h5>
+ </body>
 </html>
+<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="html2canvas.js"></script>
+<script type="text/javascript" src="canvas2image.js"></script>
+<script type="text/javascript">
+    var test = $(".test").get(0); //将jQuery对象转换为dom对象
+	 html2canvas(test).then(function(canvas) {
+		 // canvas宽度
+		 var canvasWidth = canvas.width;
+		 // canvas高度
+		 var canvasHeight = canvas.height;
+		 var img = Canvas2Image.convertToImage(canvas, canvasWidth, canvasHeight);
+		 var a = document.createElement('a')
+		 var event = new MouseEvent('click')
+		 a.download = name || '登录信息'
+		 a.href = img.src
+		 a.dispatchEvent(event) //根据A标签的属性来搞事情
+	 });
+</script>
